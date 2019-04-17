@@ -1,0 +1,92 @@
+set serveroutput on
+
+declare
+i number(1);
+j number(1);
+begin
+
+for i in 1..5 loop
+dbms_output.put_line('alvy');
+end loop;
+end;
+/
+
+
+
+
+create or replace procedure p1(x in number, y in number)
+is
+z number(4);
+begin
+z := x+y;
+dbms_output.put_line(x||'+'||y||'='||z);
+end;
+/
+
+create or replace procedure p1(x in number, y in number, z out number)
+is
+begin
+z := x+y;
+end;
+/
+
+create or replace function f1(x in number, y in number)
+return number
+is
+z number(5);
+begin
+z := x+y;
+return z;
+end;
+/
+
+
+declare
+i number;
+begin
+i:=f1(5,2);
+dbms_output.put_line('value of i='||i);
+end;
+/
+
+
+
+
+create table student
+(
+id number(6),
+cg number(3,2),
+primary key(id)
+);
+
+insert into student  values(154417,3.9);
+insert into student values(154418,3.0);
+insert into  student values(154416,2.5);
+
+
+create or replace function foo(sid in number)
+return varchar2
+is
+cgg number (3,2);
+begin
+select student.cg into cgg from student where student.id = sid;
+
+if cgg>=3.9 then 
+return 'excellent';
+end if;
+if cgg>=3.0 then 
+return 'good';
+end if;
+if cgg>=2.0 then 
+return 'bad';
+end if;
+end;
+/
+ 
+declare
+result varchar2(20);
+begin
+result :=foo(154416);
+dbms_output.put_line(result);
+end;
+/
